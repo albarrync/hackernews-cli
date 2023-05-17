@@ -140,8 +140,6 @@ export default function App() {
 		return true
 	};
 
-
-
 	// Components
 	function HnLink(props) {
 		return (
@@ -181,7 +179,7 @@ export default function App() {
 																							ordinal={num    + 1}
 																							title={story.title}
 																							score={story.score}
-																							url={story.url} /> )) }
+																							url={story.url.substring(0,100)} /> )) }
 			<Box>
 				<AppButton text="Next"/>
 				<AppButton text="Last"/>
