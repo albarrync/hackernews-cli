@@ -12,7 +12,7 @@ export default function App() {
 	// Init
 	React.useEffect(() => {
 		loadStories();
-	});
+	}, []);
 
 	// Functions
 	async function getHnStoryIds() {
@@ -43,12 +43,30 @@ export default function App() {
 		allStoryData(page_size);
 	}
 
+	function ordinalFormat(num) {
+		switch (('' + num).length) {
+			case 1:
+				return `  ${num}`;
+			case 2:
+				return ` ${num}`;
+			default:
+				return `${num}`;
+		}
+	}
+
+
 	// Components
 	function HnLink(props) {
 		return (
 			<>
-				<Text color="#ff9900">{props.ordinal}. {props.title} - {props.score} {props.score > 1 ? "points" : "point"}</Text>
-				<Text dimColor underline color="#333">{props.url}</Text>
+				<Text>
+					<Text>{ordinalFormat(props.ordinal)}. </Text>
+					<Text color="#ff9900">{props.title} - {props.score} {props.score > 1 ? "points" : "point"}</Text>
+				</Text>
+				<Text>
+					<Text>     </Text>
+					<Text dimColor underline color="#333">{props.url}</Text>
+				</Text>
 			</>
 		)}
 
