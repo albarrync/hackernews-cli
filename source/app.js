@@ -106,8 +106,21 @@ export default function App() {
 			}
 
 			if (input === 'c') {
-				// Open comments in browser
 				open(`https://news.ycombinator.com/item?id=${focusedStory.id}`);
+			}
+
+			if (input === 'u') {
+				open(`https://news.ycombinator.com/user?id=${focusedStory.by}`);
+			}
+
+			if (input === '{') {
+				setFocusedStory(stories[0])
+				setFocusedStoryIndex(0)
+			}
+
+			if (input === '}') {
+				setFocusedStory(stories[stories.length - 1])
+				setFocusedStoryIndex(stories.length - 1)
 			}
 		});
 		return true
