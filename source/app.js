@@ -9,7 +9,7 @@ export default function App() {
 	const [stories, setStories] = React.useState([]);
 	const [focusedStory, setFocusedStory] = React.useState(0);
 	const [focusedStoryIndex, setFocusedStoryIndex] = React.useState(0);
-	const [page, setPage] = React.useState(0);
+	const [page, setPage] = React.useState(1);
 
 	// Constants
 	const page_size = 20;
@@ -176,7 +176,7 @@ export default function App() {
 	// Render
 	return (
 		<>
-			{ isLoaded ? <Newline /> : <FetchSpinner type="growVertical" /> }
+			{ isLoaded ? undefined : <FetchSpinner type="growVertical" /> }
 			{ stories.map((story, num) => ( <HnLink key={story.id}
 																							ordinal={num    + 1}
 																							title={story.title}
