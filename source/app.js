@@ -1,12 +1,14 @@
 import React from 'react';
-import { Text, Box, useApp, useInput } from 'ink';
+import { Text, Box, Newline, useApp, useInput } from 'ink';
 import Spinner from 'ink-spinner';
+import open from 'open';
 
 export default function App() {
 	// State
 	const [isLoaded, setIsLoaded] = React.useState(false);
 	const [stories, setStories] = React.useState([]);
 	const [focusedStory, setFocusedStory] = React.useState(0);
+	const [focusedStoryIndex, setFocusedStoryIndex] = React.useState(0);
 	const [page, setPage] = React.useState(0);
 
 	// Constants
@@ -40,6 +42,8 @@ export default function App() {
 			getHnStories(ids).then((returned_stories) => {
 				setStories(returned_stories.slice(0, count))
 				setIsLoaded(true);
+				setFocusedStory(returned_stories[0])
+				setFocusedStoryIndex(0)
 			});
 		});
 	}
@@ -69,6 +73,7 @@ export default function App() {
 			}
 
 			if (input === 'r') {
+				setIsLoaded(false);
 				loadStories(page_size);
 			}
 
@@ -81,14 +86,30 @@ export default function App() {
 			}
 
 			if (input === 'j') {
-				// Focus next story
+				if (focusedStoryIndex <  stories.length - 1) {
+					const newIndex = focusedStoryIndex + 1;
+					setFocusedStoryIndex(newIndex)
+					setFocusedStory(stories[newIndex])
+				}
 			}
 
 			if (input === 'k') {
-				// Focus previous story
+				if (focusedStoryIndex >= 0) {
+					const newIndex = focusedStoryIndex - 1;
+					setFocusedStoryIndex(newIndex)
+					setFocusedStory(stories[newIndex])
+				}
+			}
+
+			if (input === 'o') {
+				open(focusedStory.url);
+			}
+
+			if (input === 'c') {
+				// Open comments in browser
+				open(`https://news.ycombinator.com/item?id=${focusedStory.id}`);
 			}
 		});
-
 		return true
 	};
 
@@ -99,7 +120,7 @@ export default function App() {
 		return (
 			<>
 				<Text>
-					<Text>{ordinalFormat(props.ordinal)}. </Text>
+					<Text color={focusedStoryIndex + 1 === props.ordinal ? orange_color : null}>{ordinalFormat(props.ordinal)}. </Text>
 					<Text color={orange_color}>{props.title} - {props.score} {props.score > 1 ? "points" : "point"}</Text>
 				</Text>
 				<Text>
@@ -128,7 +149,7 @@ export default function App() {
 	// Render
 	return (
 		<>
-			{ isLoaded ? undefined : <FetchSpinner type="growVertical" /> }
+			{ isLoaded ? <Newline /> : <FetchSpinner type="growVertical" /> }
 			{ stories.map((story, num) => ( <HnLink key={story.id}
 																							ordinal={num    + 1}
 																							title={story.title}
