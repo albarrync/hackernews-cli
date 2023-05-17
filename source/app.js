@@ -179,7 +179,7 @@ export default function App() {
 																							ordinal={num    + 1}
 																							title={story.title}
 																							score={story.score}
-																							url={story.url.substring(0,100)} /> )) }
+																							url={(story.url || "X").substring(0,100)} /> )) }
 			<Box>
 				<AppButton text="Next"/>
 				<AppButton text="Last"/>
