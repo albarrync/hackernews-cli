@@ -110,7 +110,21 @@ export default function App() {
 			}
 
 			if (input === 'u') {
-				open(`https://news.ycombinator.com/user?id=${focusedStory.by}`);
+				const jumpDistance = Math.ceil(page_size / 3);
+				let newIndex = 0
+				if (focusedStoryIndex - jumpDistance >= 0)
+					newIndex = focusedStoryIndex - jumpDistance;
+				setFocusedStoryIndex(newIndex)
+				setFocusedStory(stories[newIndex])
+			}
+
+			if (input === 'd') {
+				const jumpDistance = Math.ceil(page_size / 3);
+				let newIndex = stories.length - 1
+				if (focusedStoryIndex + jumpDistance < stories.length)
+					newIndex = focusedStoryIndex + jumpDistance;
+				setFocusedStoryIndex(newIndex)
+				setFocusedStory(stories[newIndex])
 			}
 
 			if (input === '{') {
