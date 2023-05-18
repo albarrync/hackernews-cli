@@ -1,8 +1,12 @@
 # hackernews-cli
 
 A simple command line utility to read hackernews from your terminal.
+
 Practice some Vim motions!
+
 Built with [Ink CLI](https://github.com/vadimdemedes/ink)
+
+![hackernews-cli screenshot](https://raw.githubusercontent.com/albarrync/hackernews-cli/main/screenshot.png?token=GHSAT0AAAAAACCAG73ETMHYI5CL3V6TIPQ4ZDFSIVQ)
 
 ### Install
 
@@ -11,6 +15,10 @@ Built with [Ink CLI](https://github.com/vadimdemedes/ink)
 * Install via npm
 ```bash
 $ npm install --global hackernews-cli
+```
+* Build app
+```bash
+$ npm run build
 ```
 
 ### Run
