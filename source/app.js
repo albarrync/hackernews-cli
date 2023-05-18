@@ -102,7 +102,9 @@ export default function App() {
 			}
 
 			if (input === 'o') {
-				open(focusedStory.url);
+				focusedStory.url
+				? open(focusedStory.url)
+				: open(`https://news.ycombinator.com/item?id=${focusedStory.id}`);
 			}
 
 			if (input === 'c') {
@@ -179,7 +181,7 @@ export default function App() {
 																							ordinal={num    + 1}
 																							title={story.title}
 																							score={story.score}
-																							url={(story.url || "X").substring(0,100)} /> )) }
+																							url={(story.url || "Comments").substring(0,100)} /> )) }
 			<Box>
 				<AppButton text="Next"/>
 				<AppButton text="Last"/>
