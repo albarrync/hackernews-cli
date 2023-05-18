@@ -184,7 +184,7 @@ export default function App() {
 																							url={(story.url || "Comments").substring(0,100)} /> )) }
 			<Box>
 				<AppButton text="Next"/>
-				<AppButton text="Last"/>
+				<AppButton text="Previous"/>
 				<AppButton text="Refresh"/>
 			</Box>
 			{ UserInput() }
