@@ -9,16 +9,16 @@ export default function App() {
 	const [stories, setStories] = React.useState([]);
 	const [focusedStory, setFocusedStory] = React.useState(0);
 	const [focusedStoryIndex, setFocusedStoryIndex] = React.useState(0);
-	const [page, setPage] = React.useState(1);
+	const [page, setPage] = React.useState(0);
 
 	// Constants
-	const page_size = 20;
+	const page_size = 25;
 	const hn_url = 'https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty';
 	const orange_color = '#ff9900';
 
 	// Init
 	React.useEffect(() => {
-		loadStories();
+		fetchStories();
 	}, []);
 
 	// Functions
@@ -37,19 +37,21 @@ export default function App() {
 		return Promise.all(stories);
 	}
 
-	async function allStoryData(count) {
+	async function fetchStories() {
 		getHnStoryIds().then((ids) => {
 			getHnStories(ids).then((returned_stories) => {
-				setStories(returned_stories.slice(0, count))
+				setStories(returned_stories);
 				setIsLoaded(true);
-				setFocusedStory(returned_stories[0])
-				setFocusedStoryIndex(0)
+				setFocusedStory(returned_stories[0]);
+				setFocusedStoryIndex(0);
+				setPage(0);
 			});
 		});
 	}
 
-	function loadStories() {
-		allStoryData(page_size);
+	function loadStories(page) {
+		let startingIndex = page * page_size;
+		return stories.slice(startingIndex, startingIndex + page_size)
 	}
 
 	function ordinalFormat(num) {
@@ -74,15 +76,25 @@ export default function App() {
 
 			if (input === 'r') {
 				setIsLoaded(false);
-				loadStories(page_size);
+				fetchStories();
 			}
 
 			if (input === 'n') {
-				// Get next page
+				let newPage = page + 1;
+				if (newPage * page_size < stories.length) {
+					setPage(newPage);
+					setFocusedStory(stories[newPage * page_size])
+					setFocusedStoryIndex(newPage * page_size)
+				}
 			}
 
 			if (input === 'p') {
-				// Get previous page
+				let newPage = page - 1;
+				if (newPage >= 0) {
+					setPage(newPage);
+					setFocusedStory(stories[newPage * page_size])
+					setFocusedStoryIndex(newPage * page_size)
+				}
 			}
 
 			if (input === 'j') {
@@ -90,6 +102,9 @@ export default function App() {
 					const newIndex = focusedStoryIndex + 1;
 					setFocusedStoryIndex(newIndex)
 					setFocusedStory(stories[newIndex])
+					if (newIndex >= (page + 1) * page_size) {
+						setPage(page + 1)
+					}
 				}
 			}
 
@@ -98,6 +113,9 @@ export default function App() {
 					const newIndex = focusedStoryIndex - 1;
 					setFocusedStoryIndex(newIndex)
 					setFocusedStory(stories[newIndex])
+					if (newIndex < page * page_size) {
+						setPage(page - 1)
+					}
 				}
 			}
 
@@ -130,13 +148,13 @@ export default function App() {
 			}
 
 			if (input === '{') {
-				setFocusedStory(stories[0])
-				setFocusedStoryIndex(0)
+				setFocusedStory(stories[page_size * page])
+				setFocusedStoryIndex(page_size * page)
 			}
 
 			if (input === '}') {
-				setFocusedStory(stories[stories.length - 1])
-				setFocusedStoryIndex(stories.length - 1)
+				setFocusedStory(stories[(page_size * page) + page_size - 1])
+				setFocusedStoryIndex((page_size * page) + page_size - 1)
 			}
 		});
 		return true
@@ -177,8 +195,8 @@ export default function App() {
 	return (
 		<>
 			{ isLoaded ? undefined : <FetchSpinner type="growVertical" /> }
-			{ stories.map((story, num) => ( <HnLink key={story.id}
-																							ordinal={num    + 1}
+			{ loadStories(page).map((story, num) => ( <HnLink key={story.id}
+																							ordinal={(page * page_size) + (num    + 1)}
 																							title={story.title}
 																							score={story.score}
 																							url={(story.url || "Comments").substring(0,100)} /> )) }
