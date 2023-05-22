@@ -109,7 +109,7 @@ export default function App() {
 			}
 
 			if (input === 'k') {
-				if (focusedStoryIndex >= 0) {
+				if (focusedStoryIndex > 0) {
 					const newIndex = focusedStoryIndex - 1;
 					setFocusedStoryIndex(newIndex)
 					setFocusedStory(stories[newIndex])
