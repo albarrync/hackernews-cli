@@ -136,6 +136,9 @@ export default function App() {
 					newIndex = focusedStoryIndex - jumpDistance;
 				setFocusedStoryIndex(newIndex)
 				setFocusedStory(stories[newIndex])
+				if (newIndex < page * page_size) {
+					setPage(page - 1)
+				}
 			}
 
 			if (input === 'd') {
@@ -145,6 +148,9 @@ export default function App() {
 					newIndex = focusedStoryIndex + jumpDistance;
 				setFocusedStoryIndex(newIndex)
 				setFocusedStory(stories[newIndex])
+				if (newIndex >= (page + 1) * page_size) {
+					setPage(page + 1)
+				}
 			}
 
 			if (input === '{') {
