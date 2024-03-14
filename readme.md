@@ -12,9 +12,9 @@ Built with [Ink CLI](https://github.com/vadimdemedes/ink)
 
 * Clone this repo to a directory on your computer
 
-* Install via npm
+* Change to new dir
 ```bash
-$ npm install --global hackernews-cli
+$ cd hackernews-cli
 ```
 * Build app
 ```bash
@@ -24,7 +24,7 @@ $ npm run build
 ### Run
 
 ```bash
-$ hackernews-cli
+$ npm exec hackernews-cli
 ```
 
 # Commands
