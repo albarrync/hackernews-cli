@@ -203,9 +203,9 @@ export default function App() {
 			{ isLoaded ? undefined : <FetchSpinner type="growVertical" /> }
 			{ loadStories(page).map((story, num) => ( <HnLink key={story.id}
 																							ordinal={(page * page_size) + (num    + 1)}
-																							title={story.title}
+																							title={story.title.slice(0, 70)}
 																							score={story.score}
-																							url={(story.url || "Comments").substring(0,100)} /> )) }
+																							url={(story.url || "Comments").slice(0, 70)} /> )) }
 			<Box>
 				<AppButton text="Next"/>
 				<AppButton text="Previous"/>
